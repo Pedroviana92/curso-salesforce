@@ -1,0 +1,10 @@
+.verde {
+    color: blueviolet;
+    -webkit-text-stroke-width: 2px; /* largura da borda */
+    -webkit-text-stroke-color: #6FBD36; /* cor da borda */
+}
+.pedro {
+    background-color: darkgrey;
+    font-size: 36px;
+    font-weight: bold;
+}

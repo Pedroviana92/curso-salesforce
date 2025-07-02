@@ -1,0 +1,24 @@
+<template>
+    <div class="slds-card__body"  style="display:flex;">
+        <template for:each={listaProdutos} for:item="lineItem" for:index="index">
+            <div key={lineItem.Nome} style="width:25%">
+                <lightning-card >
+                    <div class="espacamento">
+                        <img alt="" width="75%" height="auto"
+                        src={lineItem.Img}
+                        style="margin-bottom:20px; display: block; border: 0px;" />
+                        <p>
+                            <lightning-formatted-text class="top pedro" value={lineItem.Nome} ></lightning-formatted-text>
+                        </p>
+                        <p>
+                            <lightning-formatted-text class="pedro" value="R$ 0,00" ></lightning-formatted-text>
+                        </p>
+                        <lightning-button style = "margin-top: 20 px" variant="brand-outline" label="Adicionar ao Carrinho" title="Primary action with lighter look" onclick={handleClick} class="top slds-m-left_x-small"></lightning-button>
+                    </div>
+                            
+                </lightning-card>
+            </div>
+        </template> 
+    </div>
+   
+</template>

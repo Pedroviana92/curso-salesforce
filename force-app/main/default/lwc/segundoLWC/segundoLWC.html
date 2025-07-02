@@ -1,0 +1,20 @@
+<template>
+    <div class="pedro">
+        <p>
+            <lightning-formatted-text value="Hello World " ></lightning-formatted-text>
+            <lightning-formatted-text class="verde" value=" Lu Farias " ></lightning-formatted-text>
+            <lightning-formatted-text value=" Pedro Viana " ></lightning-formatted-text>
+            <lightning-formatted-text class="verde" style="color :aqua" value=" Carol " ></lightning-formatted-text>
+        </p>
+        <lightning-input type="text" label="Enter some text"></lightning-input>
+    </div>
+   <div>
+        <lightning-input onblur={metodo1} value={valor1} type="number" name="input1" label="Coloque o Primeiro" ></lightning-input>
+        <lightning-formatted-text value=" + " ></lightning-formatted-text>
+        <lightning-input onblur={metodo2} value={valor2} type="number" name="input2" label="Coloque o Segundo" ></lightning-input>
+        <lightning-formatted-text value=" = " ></lightning-formatted-text>
+        <lightning-formatted-number value={resultado}></lightning-formatted-number>
+
+        <lightning-button variant="base" label="Calcular Resultado" title="Looks like a link" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+   </div>
+</template>

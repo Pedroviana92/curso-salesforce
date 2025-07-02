@@ -1,0 +1,567 @@
+<template>
+    <div class="slds-page-header__row slds-grid slds-grid_align-spread slds-grid_vertical-align-center" style="border-radius: 4px 4px 0px 0px; background-color: #F3F3F3; width: 100%;"> <!-- HEADER -->
+        <div id="variants" class="slds-m-left_x-small slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center">
+            <lightning-icon icon-name="standard:checkout" class="slds-col my-icon" size="medium" variant="inverse"></lightning-icon>
+            <h1>
+                <span style="margin-left: 10px;" class="slds-page-header__title slds-truncate">Novo Pedido</span>
+            </h1>
+        </div>
+    </div>
+    <div class="box-form-pedido" style="height: 80px;"> <!-- HEADER -->
+        <div class="row">
+            <div class="row2" style="margin-left: 20px;">  
+                <div class="lb-commom">
+                    Data de Emissão 
+                </div>
+                <div class="content">
+                    {headerObject.Data}
+                </div>
+            </div>
+            <div class="row2">              
+                <div class="lb-commom">
+                    Nº Pedido
+                </div>
+                <div class="content">
+                    {headerObject.OrderNumber}
+                </div>                     
+            </div>          
+            <div class="row2">                
+                <div class="lb-commom">
+                    Cliente 
+                </div>
+                <div class="content">
+                    {headerObject.CustomerName}
+                </div>                      
+            </div>
+            <div class="row2">                
+                <div class="lb-commom">
+                    Itens 
+                </div>
+                <div class="content">
+                    {headerObject.ItensLength}
+                </div>                    
+            </div>
+          
+            <div class="row2">                    
+                <div class="lb-commom">
+                    Valor Total 
+                </div>
+                <div class="content">
+                    <lightning-formatted-number value={headerObject.totalValue} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                </div>                         
+            </div>
+           
+        </div>
+    </div>   
+
+    <div style="margin-bottom: 10px; margin-top: 20px;"> <!-- PATH -->      
+        <div class="slds-page-header__row slds-grid slds-grid_align-spread slds-grid_vertical-align-center" style="border-radius: 4px 4px 0px 0px; background-color: #FFFF; width: 100%;">
+            <div class="slds-grid slds-grid_align-center slds-grid_vertical-align-center" style="margin: 10px 0px 10px 0px; width: 100%;">
+
+                <lightning-button variant="brand" icon-name="utility:chevronleft" label="VOLTAR" disabled={backButton} onclick={backScreen}></lightning-button>
+
+                <div class="slds-col slds-size_5-of-6 slds-p-left_medium slds-p-right_medium" style="margin-top: 15px;" >
+                    <div class="slds-region_medium" style="width: 100%;">
+                        <div class="slds-path slds-path_has-coaching slds-is-expanded">
+                            <div class="slds-grid slds-path__track slds-has-overflow">
+                                <div class="slds-grid slds-path__scroller-container">
+                                    <div class="slds-path__scroller">
+                                        <div class="slds-path__scroller_inner">
+                                            <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal" aria-labelledby="slds-path__stage-name">
+
+                                                <li id="path-Account" class={stepProd} role="presentation" style="width: 600px;">
+                                                    <a aria-selected="false" class="slds-path__link " role="option" tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <lightning-icon class="my-icon2" icon-name="utility:check" size="small"></lightning-icon> 
+                                                        </span>
+                                                        <span class="slds-path__title">PRODUTOS</span>
+                                                    </a>
+                                                </li>                         
+
+                                                <li id="path-itens" class={stepClie} role="presentation" style="width: 600px;">
+                                                    <a aria-selected="false" class="slds-path__link"   role="option" tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <lightning-icon class="my-icon2" icon-name="utility:check" size="small"></lightning-icon> 
+                                                        </span>
+                                                        <span class="slds-path__title">CLIENTE / CONDIÇÕES</span>
+                                                    </a>
+                                                </li>
+                                               
+
+                                                <li id="path-checkout" class={stepFin} role="presentation" style="width: 600px;">
+                                                    <a aria-selected="false" class="slds-path__link"  role="option" tabindex="-1">
+                                                        <span class="slds-path__title">RESUMO/FINALIZAR</span>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <lightning-button variant="brand" icon-name="utility:chevronright" icon-position="right" disabled={nextButton} label="AVANÇAR" onclick={nextScreen}></lightning-button>
+            </div>
+        </div>
+    </div>
+
+    <template if:true={stepProdBL}> <!-- PRODUCT SCREEN -->
+        <div class="box-form-pedido">
+            <div class="row"> 
+                <div style="width: 75%">
+                    <div class="slds-m-left_x-small slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center">
+                        <h1>
+                            <span style="margin-left: 10px;" class="slds-page-header__title slds-truncate">Catálogo de produtos</span>
+                        </h1>
+                    </div>             
+                    <div class="row">                
+                        <template for:each={listaProdutos} for:item="record">                    
+                            <div key={record.Id} style="margin-bottom: 2%; width:31%; margin-left:2%;">
+                                <lightning-card> 
+                                    <div class = "ProductImageDiv" onclick={handleClickModal}>
+                                        <img style="max-height: 150px;" src={record.Url_Imagem__c} id={record.Id}  class ="slds-grid slds-grid_vertical-align-center">
+                                    </div>
+                                    <div style="height: 115px;" onclick={handleClickModal} id={record.Id}>
+                                        <p class = "nomeDaMarca">
+                                            <lightning-formatted-text id={record.Id} value={record.Marca__c}></lightning-formatted-text>
+                                        </p>
+    
+                                        <p class = "productName" >
+                                            <lightning-formatted-text id={record.Id} value={record.Name}></lightning-formatted-text>
+                                        </p>
+                                        <p class = "row priceDiv">
+                                            <lightning-formatted-number id={record.Id} class="priceValue" value={record.Pre_o__c} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                                        </p>
+                                    </div>
+                                    <div class="buttonAddProductDiv">
+                                        <lightning-button stretch onclick={addProdutos} value = {record.Id}  class="buttonAddProduct" variant="brand-outline" icon-name="utility:add" label="Adicionar"></lightning-button>
+    
+                                    </div>                                  
+                                </lightning-card>                                           
+                            </div>
+                        </template>
+                    </div>                   
+                </div>
+              <div style="width: 25%">
+                    <div class="slds-m-left_x-small slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center">
+                        <h1>
+                            <span class="slds-page-header__title slds-truncate">Resumo do Pedido</span>
+                        </h1>
+                    </div>
+
+                    <div class="divResumo">
+                        <div class="row divTotalValue">                        
+                            <p>
+                                Valor Total
+                            </p> 
+                            <p class="pTotalValue">
+                                <lightning-formatted-number value={headerObject.totalValue} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                            </p>                         
+                        </div>
+    
+                        <div class="row divTotalItens">
+                            <p>
+                                Total de Itens
+                            </p> 
+                            <p class="pTotalItens">
+                                {headerObject.ItensLength}
+                            </p>   
+                        </div>
+                    </div>    
+
+                    <div class="row producsAdds">                        
+                        <p style="margin-bottom: 3%;">
+                            Produtos Adicionados
+                        </p>                                                  
+                    </div>   
+                    
+                    <template for:each={listaProdutosCarrinho} for:item="record">                    
+                        <div key={record.Produto.Id} style="margin-bottom: 2%; width:90%; margin-left:2%; border-bottom-style: inset; border-bottom-width: thin;">
+                            <div class="row divProductNameAdd">                        
+                                <p class = "productNameAdd">
+                                    {record.Produto.Name}
+                                </p> 
+                                <div class="divLenghtButtons">
+                                    
+                                    <lightning-button-icon
+                                        icon-name="utility:dash"
+                                        variant="brand"
+                                        onclick={subProdutos}
+                                        value = {record.Produto.Id}
+                                        size="x-small"
+                                    >
+                                    </lightning-button-icon>
+
+                                    <lightning-formatted-number class="productLenghtAdd" value={record.ItensTotal}></lightning-formatted-number>
+                                
+                                    <lightning-button-icon
+                                        icon-name="utility:add"
+                                        variant="brand"
+                                        onclick={addProdutos}
+                                        disabled={record.DisabledButton}
+                                        value = {record.Produto.Id}
+                                        size="x-small"                                            
+                                    >
+                                    </lightning-button-icon>
+                                </div>                    
+                            </div> 
+                            <div class="row divProductPriceAdd" style="margin-top: 3%; margin-bottom: 3%">   
+                                
+                                    <div class="row divProductPriceAdd" style="width: 100px;">
+                                        <p style="font-size: 11px;    font-weight: 499;    color: #444444; ">
+                                            Preço:
+                                        </p> 
+                                        <p style="    font-size: 12px;    font-weight: 700;    color: #444444;">
+                                            <lightning-formatted-number value={record.Produto.Pre_o__c} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                                            
+                                        </p>  
+                                    </div>      
+                                    
+                                    <div class="row divProductPriceAdd" style="width: 100px;">
+                                        <p style="font-size: 11px;    font-weight: 499;    color: #181818;">
+                                            Total:
+                                        </p> 
+                                        <p style="    font-size: 12px;    font-weight: 700;    color: #181818;">
+                                            <lightning-formatted-number value={record.ValorTotal} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                                            
+                                        </p>   
+                                    </div>       
+                                </div>  
+                        </div>
+                    </template> 
+                </div>
+            </div>            
+        </div>
+    </template>
+
+    <template if:true={stepClieBL}> <!-- CUSTOMER SCREEN -->
+        <div class="box-form-pedido" style="height: 500px;">
+            <div class="col-12">
+                <div class="unique-data">
+                    <div class="lb-commom">
+                        Cliente <span class="field-required">*</span>
+                    </div>
+                    
+                    <div class="containerCL slds-is-relative">
+                        <template if:false={selectedRecord}>
+                            <p> <lightning-input                                    
+                                    type="search"
+                                    class="slds-container_fluid"
+                                    autocomplete="off"
+                                    name="jogador"
+                                    onfocus={handleOnFocus}
+                                    onfocusout={handleOnFocusOut}
+                                    value={customerAtual}
+                                    onchange={handleTyping}                               
+                                    variant="label-hidden">
+                                </lightning-input>
+                            </p>
+                            <template if:true={recordsList}>
+                                <div  class="containerCL-records-list slds-container_fluid slds-is-absolute">
+                                    <ul>
+                                        <template for:each={recordsList} for:item="record">
+                                        <li
+                                            key={record.Id}
+                                            data-value={record.Id}
+                                            onclick={handleSelectRecord}
+                                            class="slds-var-p-vertical_small slds-var-p-horizontal_medium slds-list_horizontal slds-media_center list-item">
+                                            <lightning-icon icon-name="custom:custom56" size="small" class="slds-var-m-right_small" title="Approved"></lightning-icon>
+                                            <div data-value={record.Id}>{record.Name}</div>
+                                        </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </template>
+                    
+                        <template if:true={selectedRecord}>
+                            <div>  
+                                <div class={changeColorSelectedRecord}>   
+                                    <div class="slds-list_horizontal slds-media_center"  >
+                                        <lightning-icon icon-name="custom:custom56" size="small" class="slds-var-m-right_small" title="Approved"></lightning-icon>
+                                        {selectedRecord.Name}
+                                    </div>
+                                        <div class="slds-var-p-bottom_xx-small">
+
+                                            <lightning-button-icon
+                                                icon-name="utility:close"
+                                                variant="bare"
+                                                alternative-text="Settings"
+                                                title="Settings"
+                                                onclick={handleClearSelected}
+                                                >
+                                            </lightning-button-icon>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="widthField2">
+                                    <div class="lb-commom">
+                                        Nome do Cliente
+                                    </div>
+                                    
+                                    <div class="slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Name}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="widthField2" style="margin-left: 2%">
+                                    <div class="lb-commom">
+                                        Data de Nascimento
+                                    </div>
+                                    
+                                    <div class="slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Data_de_Nascimento__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="widthField2">
+                                    <div class="lb-commom">
+                                       Telefone
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Telefone__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="widthField2" style="margin-left: 2%">
+                                    <div class="lb-commom">
+                                        Email
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Email__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="widthField2">
+                                    <div class="lb-commom">
+                                        CPF
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.CPF__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="widthField2" style="margin-left: 2%">
+                                    <div class="lb-commom">
+                                        CEP
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.CEP__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="widthField2">
+                                    <div class="lb-commom">
+                                        Rua
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Rua__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="widthField2" style="margin-left: 2%">
+                                    <div class="lb-commom">
+                                        Numero
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Numero__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="widthField2">
+                                    <div class="lb-commom">
+                                        Cidade
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Cidade__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="widthField2" style="margin-left: 2%">
+                                    <div class="lb-commom">
+                                        Bairro
+                                    </div>
+                                    
+                                    <div class=" slds-is-relative">
+                                        <lightning-input                                
+                                            type="text"
+                                            class="slds-container_fluid"
+                                            name="jogador"
+                                            value={selectedRecord.Bairro__c}
+                                            disabled=true
+                                            variant="label-hidden">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                </div>
+            </div>      
+        </div>
+    </template>
+
+    <template if:true={stepFinBL}> <!-- SUMARY SCREEN -->
+        <div class="box-form-pedido">
+            <div class="row"> 
+                <div style="width: 65%; margin-left:2%; margin-bottom: 1%;">
+                    <div class="row" style="padding: 1.5%; height: 44px; background-color: #EDEDED; margin-top: 3%;">
+                        <p style="width: 55%; color: #444444; font-size: 13px; font-weight: 700;">
+                            Produto
+                        </p> 
+                        <p style="text-align: center;width: 15%;color: #444444; font-size: 13px;font-weight: 700;">
+                            Quantidade
+                        </p> 
+                        <p style="text-align: center;width: 15%;color: #444444; font-size: 13px;font-weight: 700;">
+                            Preço
+                        </p> 
+                        <p style="text-align: center;width: 15%;color: #444444; font-size: 13px;font-weight: 700;">
+                            Total R$
+                        </p> 
+                    </div>
+                
+                    <template for:each={listaProdutosCarrinho} for:item="record">                    
+                        <div class="row" key={record.Produto.Id} style="border-bottom: 1.5px solid #aaa; margin-top: 1.5%; padding-bottom: 1.5%; align-items: center;">
+                            <div style = "width:7%">
+                                <img src={record.Produto.Url_Imagem__c} class ="slds-grid slds-grid_vertical-align-center">
+                            </div>   
+                            <p style="width: 46%; margin-left: 2%;">
+                                <lightning-formatted-text id={record.Produto.Id} value={record.Produto.Name}></lightning-formatted-text>
+                            </p> 
+                            <p style="text-align: center;width: 15%;color: #181818; font-size: 13px;font-weight: 400;">
+                                <lightning-formatted-number id={record.Produto.Id} value={record.ItensTotal}></lightning-formatted-number>
+                            </p> 
+                            <p style="text-align: center;width: 15%;color: #181818; font-size: 13px;font-weight: 400;">
+                                <lightning-formatted-number id={record.Produto.Id} value={record.Produto.Pre_o__c} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                            </p> 
+                            <p style="text-align: center;width: 15%;color: #181818; font-size: 13px;font-weight: 400;">
+                                <lightning-formatted-number id={record.Produto.Id} value={record.ValorTotal} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                            </p>                                     
+                        </div>
+                       
+                    </template>     
+                </div>
+                <div style="width: 32%">
+                    <div class="divResumo2">
+                        <div class="row divTotalItens" style="border-bottom: 1.5px solid #aaa;">
+                            <p>
+                                Desconto
+                            </p> 
+                            <p class="pTotalItens" style="margin-bottom: 5%;">
+                                <lightning-input type="number" name="input6" onblur={getDescount} value={desconto} formatter="percent-fixed"></lightning-input>
+                            </p>   
+                        </div>
+                        <div class="row divTotalItens" style="border-bottom: 1.5px solid #aaa;">
+                            <p>
+                                Subtotal
+                            </p> 
+                            <p class="pTotalItens" style="margin-bottom: 5%;">
+                                <lightning-formatted-number value={headerObject.totalValue} format-style="currency" currency-code="BRL"></lightning-formatted-number> 
+                            </p>   
+                        </div>
+                        <div class="row divTotalValue">                        
+                            <p>
+                                Valor Total
+                            </p> 
+                            <p class="pTotalValue">
+                                <lightning-formatted-number value={FinalValue} format-style="currency" currency-code="BRL"></lightning-formatted-number>
+                            </p>                         
+                        </div>   
+                       
+                        <div class="row divTotalItens">
+                            <p>
+                                Total de Itens
+                            </p> 
+                            <p class="pTotalItens">
+                                {headerObject.ItensLength}
+                            </p>   
+                        </div>
+                    </div> 
+
+                    <lightning-button stretch onclick={SalvarPedidoJS} variant="brand-outline" style="margin-top: 3%; margin-left: 56%; display: flex; width: 40%;" label="Salvar Pedido" icon-name="utility:edit"></lightning-button>
+
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

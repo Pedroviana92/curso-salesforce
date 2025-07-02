@@ -1,0 +1,21 @@
+.verde {
+    color: blueviolet;
+    -webkit-text-stroke-width: 2px; /* largura da borda */
+    -webkit-text-stroke-color: #6FBD36; /* cor da borda */
+}
+.rowInline {
+    background-color: #d9d9d9;
+    display: flex;
+}
+.espacamento {
+    margin-left: 20px;
+}
+.top {
+    margin-top:20px;
+}
+.pedro {
+    background-color: #0C2749;
+    font-size: 36px;
+    font-weight: bold;
+    color: #d9d9d9;
+}

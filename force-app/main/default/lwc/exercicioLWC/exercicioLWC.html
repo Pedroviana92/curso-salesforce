@@ -1,0 +1,79 @@
+<template>
+    <div class="pedro">
+        <p>
+            <lightning-formatted-text value="Cadastro de Novo Cliente" ></lightning-formatted-text>
+        </p>
+    </div>
+
+    <div class='rowInline'>
+        <lightning-input class="slds-size_2-of-7" label="Destinatário" onblur={MudarNome} required></lightning-input>
+
+        <lightning-input class="slds-size_2-of-7 espacamento" type="number" name="input2" label="Cep" onblur={MudarCep}></lightning-input>
+
+        <lightning-input class="slds-size_2-of-7 espacamento" onblur={MudarRua} type="text" name="rua" label="Rua" required></lightning-input>
+       
+    </div>
+
+    <div class='rowInline'>
+        <lightning-input class="slds-size_2-of-7" type="number" name="input2" label="Número" onblur={MudarNumero}></lightning-input>
+
+        <lightning-combobox
+            class="slds-size_2-of-7 espacamento"
+            name="tipoPF"
+            label="Estado"
+            value={estado}
+            options={optionsPicklist}
+            onchange={MudarEstado} ></lightning-combobox>
+
+        <lightning-input class="slds-size_2-of-7 espacamento" onblur={MudarCidade} type="text" name="rua" label="Cidade" required></lightning-input>
+    </div>
+
+    <div class='rowInline'>
+       
+        <lightning-input class="slds-size_2-of-7" type="text" onblur={MudarComplemento} label="Complemento" required></lightning-input>        
+        
+        <lightning-input class="slds-size_2-of-7 espacamento" type="text" onblur={MudarPonto} label="Ponto de Referência" required></lightning-input>        
+
+        <lightning-button variant="success" label="Salvar" title="Successful action" onclick={saveForm} class="top espacamento slds-size_2-of-7 slds-m-left_x-medium"></lightning-button>
+    </div>
+
+
+    <template if:true={showCard}>
+    
+        <div class="slds-card__body"  style="display:flex;">
+            <template for:each={listaProdutos} for:item="lineItem" for:index="index">
+                <div key={lineItem.Destinatario} style="width:25%">
+                    <lightning-card >
+                        <p>
+                            <lightning-formatted-text value="Spoiler" ></lightning-formatted-text>
+                        </p>  
+                        <p>
+                            <lightning-formatted-text value={lineItem.Destinatario} ></lightning-formatted-text>
+                        </p>   
+                        <p>
+                            <lightning-formatted-text value={lineItem.Cep} ></lightning-formatted-text>
+                        </p> 
+                        <p>
+                            <lightning-formatted-text value={lineItem.Rua} ></lightning-formatted-text>
+                        </p> 
+                        <p>
+                            <lightning-formatted-text value={lineItem.Numero} ></lightning-formatted-text>
+                        </p> 
+                        <p>
+                            <lightning-formatted-text value={lineItem.Estado} ></lightning-formatted-text>
+                        </p> 
+                        <p>
+                            <lightning-formatted-text value={lineItem.Cidade} ></lightning-formatted-text>
+                        </p> 
+                        <p>
+                            <lightning-formatted-text value={lineItem.Complemento} ></lightning-formatted-text>
+                        </p> 
+                        <p>
+                            <lightning-formatted-text value={lineItem.Ponto} ></lightning-formatted-text>
+                        </p>                          
+                    </lightning-card>
+                </div>
+            </template> 
+        </div>
+    </template>
+</template>

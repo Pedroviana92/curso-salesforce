@@ -1,0 +1,45 @@
+<template>
+    <div class="pedro">
+        <p>
+            <lightning-formatted-text value="Cadastro de Novo Cliente" ></lightning-formatted-text>
+        </p>
+    </div>
+    <div class='rowInline'>
+        <lightning-input class="slds-size_2-of-7" label="Nome" onblur={MudarNome} placeholder="escreva o seu nome aqui..." required></lightning-input>
+
+            <lightning-combobox
+            class="slds-size_2-of-7 espacamento"
+            name="tipoPF"
+            label="Tipo"
+            value={valueTipoPessoa}
+            options={optionsPicklist}
+            onchange={MudarTipoPessoa} ></lightning-combobox>
+
+            <lightning-input class="slds-size_2-of-7 espacamento" onblur={MudarDocumento} type="text" name="cpf" label={documento} required></lightning-input>
+       
+    </div>
+
+    <div class='rowInline'>
+        <lightning-input  class="slds-size_2-of-7" type="tel" onblur={MudarTelefone} label="Telefone" required placeholder="escreva o seu telefone aqui..." name="phone" value="43988566725" pattern="[0-9]{2} [0-9]{5}[0-9]{4}"></lightning-input>
+
+        <lightning-input class="slds-size_2-of-7 espacamento" onblur={MudarEmail} type="email" label="Email" placeholder="escreva o seu email aqui..."></lightning-input>
+
+        <lightning-input class="slds-size_2-of-7 espacamento" onblur={MudarData} type="date" name="input1" label="Data de Nascimento" ></lightning-input>
+    </div>
+    <div class='rowInline'>
+        <template if:true={isCNPJ}>
+            <lightning-input class="slds-size_2-of-7" type="text" onblur={MudarContato} label="Contato Principal" required></lightning-input>
+        </template>
+        
+        <lightning-input class="top slds-size_2-of-7 espacamento" onchange={MudarIsActive} type="toggle" label="Ativo?" name="input1"></lightning-input>
+
+        <lightning-button variant="success" label="Success" title="Successful action" onclick={Salvar} class="top espacamento slds-size_2-of-7 slds-m-left_x-medium"></lightning-button>
+    </div>
+
+    <lightning-datatable
+        key-field="id"
+        data={dataTabela}
+        columns={columnsTabela}>
+    </lightning-datatable>
+    
+</template>
